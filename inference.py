@@ -42,9 +42,11 @@ stride, names, pt = model.stride, model.names, model.pt
 imgsz = check_img_size(imgsz, s=stride)  # check image size
 
 imgs = os.listdir(test_path)
+print("imgs: ",imgs)
 
 for file in imgs:
     img_path = os.path.join(test_path,file)
+    print("img_path: ",img_path)
     img = cv2.imread(img_path)
 
     # 前处理
