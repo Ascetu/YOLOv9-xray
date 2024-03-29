@@ -899,6 +899,7 @@ def non_max_suppression(
          list of detections, on (n,6) tensor per image [xyxy, conf, cls]
     """
 
+    print("iflist: ",isinstance(prediction, (list, tuple)))
     if isinstance(prediction, (list, tuple)):  # YOLO model in validation model, output = (inference_out, loss_out)
         prediction = prediction[0]  # select only inference output
 
