@@ -45,6 +45,8 @@ imgs = os.listdir(test_path)
 print("imgs: ",imgs)
 
 for file in imgs:
+    if file == ".ipynb_checkpoints":
+        continue
     img_path = os.path.join(test_path,file)
     print("img_path: ",img_path)
     img = cv2.imread(img_path)
