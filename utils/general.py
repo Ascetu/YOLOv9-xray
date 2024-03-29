@@ -901,10 +901,10 @@ def non_max_suppression(
 
     print("iflist: ",isinstance(prediction, (list, tuple)))
     if isinstance(prediction, (list, tuple)):  # YOLO model in validation model, output = (inference_out, loss_out)
-        prediction = prediction[0]  # select only inference output
+        prediction = prediction[0][0]  # select only inference output
 
     print("prediction: ",prediction)
-    device = prediction[0].device
+    device = prediction.device
     mps = 'mps' in device.type  # Apple MPS
     if mps:  # MPS not fully supported yet, convert tensors to CPU before NMS
         prediction = prediction.cpu()
