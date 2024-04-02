@@ -5,7 +5,7 @@ test: backhead/images/test/   # 20288 of 40670 images, submit to https://competi
 
 # Classes
 names:
-  15: backhead
+  0: backhead
 
 
 # Download script/URL (optional)
