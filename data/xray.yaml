@@ -1,11 +1,11 @@
 path: ./datasets/xray  # dataset root dir
-train: smoke/images/train/   # train images (relative to 'path') 118287 images
-val: smoke/images/val/  # val images (relative to 'path') 5000 images
-test: smoke/images/test/   # 20288 of 40670 images, submit to https://competitions.codalab.org/competitions/20794
+train: backhead/images/train/   # train images (relative to 'path') 118287 images
+val: backhead/images/val/  # val images (relative to 'path') 5000 images
+test: backhead/images/test/   # 20288 of 40670 images, submit to https://competitions.codalab.org/competitions/20794
 
 # Classes
 names:
-  0: pneumonia
+  0: backhead
 
 
 # Download script/URL (optional)
