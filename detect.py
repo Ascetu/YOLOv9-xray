@@ -58,6 +58,7 @@ def run(
     screenshot = source.lower().startswith('screen')
     if is_url and is_file:
         source = check_file(source)  # download
+    print("source来源",source,save_img,is_file,is_url,webcam,screenshot)
 
     # Directories
     save_dir = increment_path(Path(project) / name, exist_ok=exist_ok)  # increment run
