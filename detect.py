@@ -13,7 +13,7 @@ if str(ROOT) not in sys.path:
 ROOT = Path(os.path.relpath(ROOT, Path.cwd()))  # relative
 
 from models.common import DetectMultiBackend
-# from utils.dataloaders import IMG_FORMATS, VID_FORMATS, LoadImages, LoadScreenshots, LoadStreams
+from utils.dataloaders import IMG_FORMATS, VID_FORMATS, LoadImages, LoadScreenshots, LoadStreams
 from utils.general import (LOGGER, Profile, check_file, check_img_size, check_imshow, check_requirements, colorstr, cv2,
                            increment_path, non_max_suppression, print_args, scale_boxes, strip_optimizer, xyxy2xywh)
 from utils.plots import Annotator, colors, save_one_box
@@ -50,15 +50,15 @@ def run(
         dnn=False,  # use OpenCV DNN for ONNX inference
         vid_stride=1,  # video frame-rate stride
 ):
-    # source = str(source)
-    # save_img = not nosave and not source.endswith('.txt')  # save inference images
-    # is_file = Path(source).suffix[1:] in (IMG_FORMATS + VID_FORMATS)
-    # is_url = source.lower().startswith(('rtsp://', 'rtmp://', 'http://', 'https://'))
-    # webcam = source.isnumeric() or source.endswith('.txt') or (is_url and not is_file)
-    # screenshot = source.lower().startswith('screen')
-    # if is_url and is_file:
-    #     source = check_file(source)  # download
-    # print("source来源",source,save_img,is_file,is_url,webcam,screenshot)
+    source = str(source)
+    save_img = not nosave and not source.endswith('.txt')  # save inference images
+    is_file = Path(source).suffix[1:] in (IMG_FORMATS + VID_FORMATS)
+    is_url = source.lower().startswith(('rtsp://', 'rtmp://', 'http://', 'https://'))
+    webcam = source.isnumeric() or source.endswith('.txt') or (is_url and not is_file)
+    screenshot = source.lower().startswith('screen')
+    if is_url and is_file:
+        source = check_file(source)  # download
+    print("source来源",source,save_img,is_file,is_url,webcam,screenshot)
 
     # Directories
     save_dir = increment_path(Path(project) / name, exist_ok=exist_ok)  # increment run
@@ -76,29 +76,25 @@ def run(
     
     
 
-    # # Dataloader
+    # Dataloader
     bs = 1  # batch_size
-    # if webcam:
-    #     view_img = check_imshow(warn=True)
-    #     print("是否支持显示图像：",view_img)
-    #     dataset = LoadStreams(source, img_size=imgsz, stride=stride, auto=pt, vid_stride=vid_stride)
-    #     bs = len(dataset)
-    # elif screenshot:
-    #     dataset = LoadScreenshots(source, img_size=imgsz, stride=stride, auto=pt)
-    # else:
-    #     dataset = LoadImages(source, img_size=imgsz, stride=stride, auto=pt, vid_stride=vid_stride)
-    # vid_path, vid_writer = [None] * bs, [None] * bs
-    dataset = source
-    # print("匹大小：",bs)
+    if webcam:
+        view_img = check_imshow(warn=True)
+        print("是否支持显示图像：",view_img)
+        dataset = LoadStreams(source, img_size=imgsz, stride=stride, auto=pt, vid_stride=vid_stride)
+        bs = len(dataset)
+    elif screenshot:
+        dataset = LoadScreenshots(source, img_size=imgsz, stride=stride, auto=pt)
+    else:
+        dataset = LoadImages(source, img_size=imgsz, stride=stride, auto=pt, vid_stride=vid_stride)
+    vid_path, vid_writer = [None] * bs, [None] * bs
+    print("匹大小：",bs)
     print("数据集长度", len(dataset))
 
     # Run inference
     model.warmup(imgsz=(1 if pt or model.triton else bs, 3, *imgsz))  # warmup
     seen, windows, dt = 0, [], (Profile(), Profile(), Profile())
-    # for path, im, im0s, vid_cap, s in dataset:
-    path = './'
-    s = ''
-    for im in dataset:
+    for path, im, im0s, vid_cap, s in dataset:
         with dt[0]:
             im = torch.from_numpy(im).to(model.device)
             im = im.half() if model.fp16 else im.float()  # uint8 to fp16/32
