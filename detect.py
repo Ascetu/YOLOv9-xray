@@ -50,15 +50,15 @@ def run(
         dnn=False,  # use OpenCV DNN for ONNX inference
         vid_stride=1,  # video frame-rate stride
 ):
-    source = str(source)
-    save_img = not nosave and not source.endswith('.txt')  # save inference images
-    is_file = Path(source).suffix[1:] in (IMG_FORMATS + VID_FORMATS)
-    is_url = source.lower().startswith(('rtsp://', 'rtmp://', 'http://', 'https://'))
-    webcam = source.isnumeric() or source.endswith('.txt') or (is_url and not is_file)
-    screenshot = source.lower().startswith('screen')
-    if is_url and is_file:
-        source = check_file(source)  # download
-    print("source来源",source,save_img,is_file,is_url,webcam,screenshot)
+    # source = str(source)
+    # save_img = not nosave and not source.endswith('.txt')  # save inference images
+    # is_file = Path(source).suffix[1:] in (IMG_FORMATS + VID_FORMATS)
+    # is_url = source.lower().startswith(('rtsp://', 'rtmp://', 'http://', 'https://'))
+    # webcam = source.isnumeric() or source.endswith('.txt') or (is_url and not is_file)
+    # screenshot = source.lower().startswith('screen')
+    # if is_url and is_file:
+    #     source = check_file(source)  # download
+    # print("source来源",source,save_img,is_file,is_url,webcam,screenshot)
 
     # Directories
     save_dir = increment_path(Path(project) / name, exist_ok=exist_ok)  # increment run
@@ -76,19 +76,20 @@ def run(
     
     
 
-    # Dataloader
-    bs = 1  # batch_size
-    if webcam:
-        view_img = check_imshow(warn=True)
-        print("是否支持显示图像：",view_img)
-        dataset = LoadStreams(source, img_size=imgsz, stride=stride, auto=pt, vid_stride=vid_stride)
-        bs = len(dataset)
-    elif screenshot:
-        dataset = LoadScreenshots(source, img_size=imgsz, stride=stride, auto=pt)
-    else:
-        dataset = LoadImages(source, img_size=imgsz, stride=stride, auto=pt, vid_stride=vid_stride)
-    vid_path, vid_writer = [None] * bs, [None] * bs
-    print("匹大小：",bs)
+    # # Dataloader
+    # bs = 1  # batch_size
+    # if webcam:
+    #     view_img = check_imshow(warn=True)
+    #     print("是否支持显示图像：",view_img)
+    #     dataset = LoadStreams(source, img_size=imgsz, stride=stride, auto=pt, vid_stride=vid_stride)
+    #     bs = len(dataset)
+    # elif screenshot:
+    #     dataset = LoadScreenshots(source, img_size=imgsz, stride=stride, auto=pt)
+    # else:
+    #     dataset = LoadImages(source, img_size=imgsz, stride=stride, auto=pt, vid_stride=vid_stride)
+    # vid_path, vid_writer = [None] * bs, [None] * bs
+    dataset = source
+    # print("匹大小：",bs)
     print("数据集长度", len(dataset))
 
     # Run inference
