@@ -63,12 +63,18 @@ def run(
     # Directories
     save_dir = increment_path(Path(project) / name, exist_ok=exist_ok)  # increment run
     (save_dir / 'labels' if save_txt else save_dir).mkdir(parents=True, exist_ok=True)  # make dir
+    print("目录：",save_dir)
 
     # Load model
     device = select_device(device)
+    print("加载模型：",weights, device, dnn, data, half)
     model = DetectMultiBackend(weights, device=device, dnn=dnn, data=data, fp16=half)
     stride, names, pt = model.stride, model.names, model.pt
+    print("模型属性：",stride, names, pt, model.names, model.pt)
     imgsz = check_img_size(imgsz, s=stride)  # check image size
+    print("imgsz？：",imgsz)
+    
+    
 
     # Dataloader
     bs = 1  # batch_size
