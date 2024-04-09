@@ -77,7 +77,7 @@ def run(
     
 
     # # Dataloader
-    # bs = 1  # batch_size
+    bs = 1  # batch_size
     # if webcam:
     #     view_img = check_imshow(warn=True)
     #     print("是否支持显示图像：",view_img)
@@ -86,7 +86,7 @@ def run(
     # elif screenshot:
     #     dataset = LoadScreenshots(source, img_size=imgsz, stride=stride, auto=pt)
     # else:
-        # dataset = LoadImages(source, img_size=imgsz, stride=stride, auto=pt, vid_stride=vid_stride)
+    #     dataset = LoadImages(source, img_size=imgsz, stride=stride, auto=pt, vid_stride=vid_stride)
     # vid_path, vid_writer = [None] * bs, [None] * bs
     dataset = source
     # print("匹大小：",bs)
